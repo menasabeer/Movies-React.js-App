@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/Movies-React.js-App/static/css/main.76c2f9db.css",
+    "main.js": "/Movies-React.js-App/static/js/main.8b59eec4.js",
+    "static/js/787.d71c8db9.chunk.js": "/Movies-React.js-App/static/js/787.d71c8db9.chunk.js",
+    "static/media/fa-solid-900.ttf": "/Movies-React.js-App/static/media/fa-solid-900.b1a653db79258eeccc5d.ttf",
+    "static/media/fa-brands-400.ttf": "/Movies-React.js-App/static/media/fa-brands-400.450a5c898f0b184b968b.ttf",
+    "static/media/fa-solid-900.woff2": "/Movies-React.js-App/static/media/fa-solid-900.41c0f706d8ce93933771.woff2",
+    "static/media/fa-brands-400.woff2": "/Movies-React.js-App/static/media/fa-brands-400.3ac6859b28be946745f9.woff2",
+    "static/media/fa-regular-400.ttf": "/Movies-React.js-App/static/media/fa-regular-400.3cd9fb8fcec4ad0f99d4.ttf",
+    "static/media/fa-regular-400.woff2": "/Movies-React.js-App/static/media/fa-regular-400.1f3772178d9e5bed38a6.woff2",
+    "static/media/fa-v4compatibility.ttf": "/Movies-React.js-App/static/media/fa-v4compatibility.e314b618134d5be20996.ttf",
+    "static/media/fa-v4compatibility.woff2": "/Movies-React.js-App/static/media/fa-v4compatibility.4ee7f902d88f819e251c.woff2",
+    "index.html": "/Movies-React.js-App/index.html",
+    "main.76c2f9db.css.map": "/Movies-React.js-App/static/css/main.76c2f9db.css.map",
+    "main.8b59eec4.js.map": "/Movies-React.js-App/static/js/main.8b59eec4.js.map",
+    "787.d71c8db9.chunk.js.map": "/Movies-React.js-App/static/js/787.d71c8db9.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.76c2f9db.css",
+    "static/js/main.8b59eec4.js"
+  ]
+}
