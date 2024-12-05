@@ -88,8 +88,6 @@ body {
   z-index: 999999999999;
   background-color: var(--bg-color) !important;
 }
-
-
 .footer
 {
   position: fixed;
@@ -99,3 +97,4 @@ body {
   z-index: 999999999999;
   background-color: var(--bg-color) !important;
 }
+

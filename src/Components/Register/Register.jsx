@@ -17,12 +17,16 @@ export default function Register() {
         phone: "",
     });
 
+    // Handle form input change
     function getUserData(eventInfo) {
-        let myUser = { ...user };
-        myUser[eventInfo.target.name] = eventInfo.target.value;
-        setUser(myUser);
+        const { name, value } = eventInfo.target;
+        setUser((prevUser) => ({
+            ...prevUser,
+            [name]: value,
+        }));
     }
 
+    // Send registration data to the API
     async function sendRegisterDataToApi() {
         try {
             const { data } = await axios.post(
@@ -38,10 +42,12 @@ export default function Register() {
             }
         } catch (error) {
             setIsLoading(false);
-            setError("An error occurred. Please try again later.");
+            setError(error?.response?.data?.message || "An error occurred");
+            
         }
     }
 
+    // Submit registration form
     function submitRegisterForm(eventInfo) {
         setIsLoading(true);
         eventInfo.preventDefault();
@@ -50,26 +56,40 @@ export default function Register() {
             setIsLoading(false);
             setErrorList(validation.error.details);
         } else {
+            setErrorList([]);
             sendRegisterDataToApi();
         }
     }
 
+    // Validate registration form
     function validateRegister() {
         let schema = Joi.object({
             name: Joi.string()
                 .min(3)
                 .max(12)
                 .pattern(/^[A-Z]/)
-                .required(),
+                .required()
+                .messages({
+                    "string.pattern.base": "Name should start with a capital letter",
+                    "string.min": "Name should be at least 3 characters",
+                    "string.max": "Name should be no longer than 12 characters",
+                }),
             email: Joi.string()
-                .email({
-                    minDomainSegments: 2,
-                    tlds: { allow: ["com", "net"] },
-                })
-                .required(),
-            password: Joi.string().pattern(/^[A-Z][a-z]{3,6}/),
+                .email({ minDomainSegments: 2, tlds: { allow: ["com", "net"] } })
+                .required()
+                .messages({
+                    "string.email": "Email is invalid",
+                }),
+            password: Joi.string()
+                .pattern(/^[A-Z][a-z]{3,6}/)
+                .required()
+                .messages({
+                    "string.pattern.base": "Password should start with an uppercase letter and be 4-7 characters long",
+                }),
             rePassword: Joi.ref("password"),
-            phone: Joi.string().pattern(/^01[0-2]{1}[0-9]{8}$/),
+            phone: Joi.string().pattern(/^01[0-2]{1}[0-9]{8}$/).required().messages({
+                "string.pattern.base": "Phone number is invalid",
+            }),
         });
         return schema.validate(user, { abortEarly: false });
     }
@@ -78,11 +98,14 @@ export default function Register() {
         <>
             <Helmet>
                 <meta charSet="utf-8" />
-                <meta name="description" content="login-page" />
+                <meta name="description" content="Register page for new users" />
                 <title>Register Page</title>
             </Helmet>
             <form onSubmit={submitRegisterForm} className="container w-75 my-3">
                 <h2>Register Form</h2>
+
+                {error && <div className="alert alert-danger">{error}</div>}
+
                 <div className="form-group mt-3">
                     <label htmlFor="name">Name : </label>
                     <input
@@ -91,11 +114,12 @@ export default function Register() {
                         className="my-input form-control"
                         name="name"
                         id="name"
+                        value={user.name}
                     />
                     {errorList.map((err, index) =>
                         err.context && err.context.label === "name" ? (
                             <div key={index} className="text-danger">
-                                Name should start with a capital letter
+                                {err.message}
                             </div>
                         ) : null
                     )}
@@ -109,11 +133,12 @@ export default function Register() {
                         className="my-input form-control"
                         name="email"
                         id="email"
+                        value={user.email}
                     />
                     {errorList.map((err, index) =>
                         err.context && err.context.label === "email" ? (
                             <div key={index} className="text-danger">
-                                Email Invalid
+                                {err.message}
                             </div>
                         ) : null
                     )}
@@ -127,11 +152,12 @@ export default function Register() {
                         className="my-input form-control"
                         name="password"
                         id="password"
+                        value={user.password}
                     />
                     {errorList.map((err, index) =>
                         err.context && err.context.label === "password" ? (
                             <div key={index} className="text-danger">
-                                Password Invalid
+                                {err.message}
                             </div>
                         ) : null
                     )}
@@ -145,11 +171,12 @@ export default function Register() {
                         className="my-input form-control"
                         name="rePassword"
                         id="rePassword"
+                        value={user.rePassword}
                     />
                     {errorList.map((err, index) =>
                         err.context && err.context.label === "rePassword" ? (
                             <div key={index} className="text-danger">
-                                Passwords do not match
+                                {err.message}
                             </div>
                         ) : null
                     )}
@@ -163,17 +190,18 @@ export default function Register() {
                         className="my-input form-control"
                         name="phone"
                         id="phone"
+                        value={user.phone}
                     />
                     {errorList.map((err, index) =>
                         err.context && err.context.label === "phone" ? (
                             <div key={index} className="text-danger">
-                                Phone number invalid
+                                {err.message}
                             </div>
                         ) : null
                     )}
                 </div>
 
-                <button className="btn btn-primary mt-3 float-end">
+                <button className="btn btn-primary mt-3 float-end" disabled={isLoading}>
                     {isLoading ? (
                         <i className="fas fa-spinner fa-spin"></i>
                     ) : (
